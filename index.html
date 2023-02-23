@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pomodoro</title>
+    <script src="https://kit.fontawesome.com/266cde5198.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="overlays">
+        <div class="model">
+            <div class="setting-header">
+                <h1>Setting</h1>
+                <button id="close"><i class="fa-solid fa-close"></i></button>
+            </div>
+            <div class="time-setting">
+                <span>TIME (MINUTES)</span>
+                <div class="time-inputs">
+                    <div>
+                        <label for="pomodoro">pomodoro</label><input type="number" id="pomodoro" min="15"
+                            max="60" step="1" placeholder="25">
+                    </div>
+                    <div>
+                        <label for="short-break">short break</label><input type="number" id="short-break" min="5"
+                            max="30" step="1" placeholder="5">
+                    </div>
+                    <div>
+                        <label for="long-break">long break</label><input type="number" id="long-break" min="15"
+                            max="60" step="1" placeholder="15">
+                    </div>
+                </div>
+            </div>
+            <div class="font-selector">
+                <span>FONT</span>
+                <div class="fonts">
+                    <button class="font-active">Aa</button>
+                    <button>Aa</button>
+                    <button>Aa</button>
+                </div>
+            </div>
+            <div class="color-selector">
+                <span>COLOR</span>
+                <div class="colors">
+                    <div style="background-color: #5cf;">&check;</div>
+                    <div style="background-color: rgb(109,98,255);"></div>
+                    <div style="background-color: #57d;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="container">
+        <h1>pomodoro</h1>
+        <div class="timer-controlers">
+            <button class="btn active">pomodoro</button>
+            <button class="btn">short break</button>
+            <button class="btn">long break</button>
+        </div>
+        <div class="time-container">
+            <div id="time-dot"></div>
+            <svg>
+                <circle cx="140" cy="140" r="140"></circle>
+                <circle cx="140" cy="140" r="140" id="current-time"></circle>
+            </svg>
+            <div class="timer">
+                <div class="time"><span id="minute">00 </span><span>:</span><span id="second"> 00</span></div>
+                <span class="status">PAUSE</span>
+            </div>
+        </div>
+        <div class="settings"><i class="fa-solid fa-gear"></i></div>
+    </section>
+
+    <script src="index.js"></script>
+</body>
+
+</html>

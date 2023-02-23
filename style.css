@@ -1,0 +1,297 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+:root {
+    --text-color: #fff;
+}
+
+.theme1 {
+    --clock-bg: #1f2f3f;
+    --bg-color: #1f3f5f;
+    --primary-color: #5cf;
+    --primary-color-shadow: #5cf9;
+}
+
+.theme2 {
+    --clock-bg: #23234b;
+    --bg-color: #272663;
+    --primary-color: rgb(109, 98, 255);
+    --primary-color-shadow: rgba(111, 104, 253, 0.6);
+}
+
+.theme3 {
+    --clock-bg: #1f2d3f;
+    --bg-color: #1f325f;
+    --primary-color: #57d;
+    --primary-color-shadow: #57d9;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+    transition: transform 1s ease-in-out, stroke-dashoffset 1s ease-in-out;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    color: var(--text-color);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--bg-color);
+}
+
+.overlays {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 20;
+}
+
+.model {
+    width: 40rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 1.8rem;
+    padding-bottom: 4.5rem;
+    height: 32rem;
+    background-color: #fff;
+    border-radius: 30px;
+    box-shadow: rgba(0, 0, 0, 0.2);
+    color: var(--bg-color);
+    z-index: 30;
+}
+
+.model span {
+    letter-spacing: 0.25rem;
+}
+
+.time-setting {
+    width: 100%;
+    padding: 0.25rem;
+}
+
+.time-setting .time-inputs {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.time-setting .time-inputs div {
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.time-setting .time-inputs div label {
+    color: rgb(146, 146, 146);
+    font-size: 0.85rem;
+}
+
+.time-setting .time-inputs div input {
+    border: none;
+    outline: none;
+    background-color: rgba(170, 170, 170, 0.2);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    outline: none;
+    width: 100%;
+    height: 3rem;
+    font-size: 1.5rem;
+}
+
+[data-input][type=number]::-webkit-inner-spin-button,
+[data-input][type=number]::-webkit-outer-spin-button {
+    display: block;
+    opacity: 1;
+}
+
+.setting-header button,
+.font-selector button {
+    width: 50px;
+    height: 50px;
+    padding: 5px;
+    border-radius: 50%;
+    font-size: 1.25rem;
+    border: none;
+    background: none;
+    color: rgb(146, 146, 146);
+}
+
+.setting-header button:hover{
+    color: #000;
+}
+
+.setting-header,
+.font-selector,
+.color-selector {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.font-selector .fonts,
+.color-selector .colors {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.font-selector .fonts button {
+    background-color: rgba(170, 170, 170, 0.2);
+}
+
+.font-selector .fonts .font-active {
+    background-color: #1f1f1f;
+}
+
+.color-selector .colors div {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    padding: 0.25rem 0.85rem;
+    font-size: 1.75rem;
+    font-weight: 600;
+}
+
+
+.btn {
+    color: var(--text-color);
+    background: none;
+    padding: 0.75rem;
+    border: none;
+    border-radius: 25px;
+}
+
+.active {
+    background-color: var(--primary-color);
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    height: 90vh;
+}
+
+.container h1 {
+    font-size: 2rem;
+}
+
+.container .settings {
+    font-size: 1.5rem;
+}
+
+.container .timer-controlers {
+    background-color: var(--clock-bg);
+    border-radius: 30px;
+    height: 4rem;
+    width: 340px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem;
+}
+
+.time-container {
+    position: relative;
+    width: 340px;
+    height: 340px;
+    background-color: var(--bg-color);
+    border-radius: 50%;
+    box-shadow: 0 0 15px var(--primary-color-shadow),
+        0 0 30px var(--primary-color);
+    padding-top: 15px;
+    padding-left: 15px;
+    overflow: hidden;
+}
+
+.time-container svg {
+    position: relative;
+    width: 310px;
+    height: 310px;
+    border-radius: 50%;
+    background-color: var(--clock-bg);
+    transform: rotate(270deg);
+}
+
+.time-container svg circle {
+    fill: transparent;
+    stroke: var(--bg-color);
+    stroke-width: 8;
+    transform: translate(15px, 15px);
+}
+
+.time-container svg circle:nth-child(2) {
+    stroke: var(--primary-color);
+    stroke-dasharray: 880;
+}
+
+.time-container .timer {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+}
+
+#time-dot {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+}
+
+#time-dot::before {
+    content: '';
+    position: absolute;
+    top: 20px;
+    width: 20px;
+    height: 20px;
+    background-color: var(--primary-color);
+    border-radius: 50%;
+    box-shadow: 0 0 20px var(--primary-color),
+        0 0 60px var(--primary-color);
+}
+
+.timer .status {
+    letter-spacing: 0.5rem;
+}
+
+.time {
+    font-size: 4.2rem;
+    display: flex;
+    gap: 0.5rem;
+}
+
+@media only screen and (max-width:768px) {
+    .model {
+        width: 95vw;
+        height: 30rem;
+        border-radius: 20px;
+    }
+    .time-setting .time-inputs div {
+        width: 30%;
+    }
+}
