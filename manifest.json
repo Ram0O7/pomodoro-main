@@ -1,0 +1,43 @@
+{
+    "name": "pomodoro timer",
+    "short_name": "pomodoro",
+    "start_url": "index.html",
+    "display": "standalone",
+    "background_color": "#fdfdfd",
+    "theme_color": "#1f2f3f",
+    "orientation": "portrait-primary",
+    "icons": [
+      {
+        "src": "/images/icons/ic.png",
+        "type": "image/png", "sizes": "72x72"
+      },
+      {
+        "src": "/images/icons/ic.png",
+        "type": "image/png", "sizes": "96x96"
+      },
+      {
+        "src": "/images/icons/icon.png",
+        "type": "image/png","sizes": "128x128"
+      },
+      {
+        "src": "/images/icons/icon.png",
+        "type": "image/png", "sizes": "144x144"
+      },
+      {
+        "src": "/images/icons/icon.png",
+        "type": "image/png", "sizes": "152x152"
+      },
+      {
+        "src": "/images/icons/icon.png",
+        "type": "image/png", "sizes": "192x192"
+      },
+      {
+        "src": "/images/icons/icon.png",
+        "type": "image/png", "sizes": "384x384"
+      },
+      {
+        "src": "/images/icons/icon.png",
+        "type": "image/png", "sizes": "512x512"
+      }
+    ]
+  }

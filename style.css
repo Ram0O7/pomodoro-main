@@ -31,7 +31,9 @@
     padding: 0;
     box-sizing: border-box;
     font-family: var(--font-face), sans-serif;
-    transition: transform 1s ease-in-out, stroke-dashoffset 1s ease-in-out;
+    transition: transform 0.5s ease-out,
+        stroke-dashoffset 0.5s ease-out,
+        background-color 0.5s ease-in;
 }
 
 body {
@@ -58,7 +60,7 @@ body {
     z-index: 20;
 }
 
-.overlays .apply-setting{
+.overlays .apply-setting {
     border: none;
     background-color: rgb(240, 113, 105);
     color: var(--text-color);
@@ -138,7 +140,7 @@ body {
     color: rgb(146, 146, 146);
 }
 
-.setting-header button:hover{
+.setting-header button:hover {
     color: #000;
 }
 
@@ -221,7 +223,7 @@ body {
     background-color: var(--bg-color);
     border-radius: 50%;
     box-shadow: 0 0 10px var(--primary-color-shadow),
-    0 0 25px var(--primary-color);
+        0 0 25px var(--primary-color);
     padding-top: 15px;
     padding-left: 15px;
     overflow: hidden;
@@ -302,6 +304,7 @@ body {
         height: 30rem;
         border-radius: 20px;
     }
+
     .time-setting .time-inputs div {
         width: 32%;
     }

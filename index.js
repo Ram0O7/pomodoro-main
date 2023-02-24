@@ -15,6 +15,16 @@ const fonts = document.querySelectorAll(".font")
 const colors = document.querySelectorAll(".color")
 const timeIntervals = document.querySelectorAll(".btn")
 
+// collecting caches stored in serviceWorker
+if ("serviceWorker" in navigator) {
+    window.addEventListener("load", function () {
+        navigator.serviceWorker
+            .register("/serviceWorker.js")
+            .then(res => console.log("service worker registered"))
+            .catch(err => console.log("service worker not registered", err))
+    })
+}
+
 //getting voice istructions
 const startVoice = new Audio('start.mp3')
 const shortBreakVoice = new Audio('short-break.mp3')
@@ -38,6 +48,16 @@ const getStorageFont = () => {
     return font
 }
 
+//get pomodoro setting
+const getStorageSettings = () => {
+    const setting = [25, 5, 30];
+    const pomoSetting = JSON.parse(localStorage.getItem("pomo-setting"))
+    if (pomoSetting) {
+        return pomoSetting
+    }
+    return setting
+}
+
 //getting initial font and color
 colors.forEach(color => {
     if (color.id === getStorageTheme()) {
@@ -52,22 +72,30 @@ fonts.forEach(font => {
 
 //time variables
 let pomodoroCount = 2
-let m = 1
+let m = getStorageSettings()[0]
 let pomodoroDuration = m
 let totalSec = m * 60
 let s = 0
 let secondsNow = totalSec
 let isTimerOn = false
-let shortBreak = 1
-let longBreak = 1
+let shortBreak = getStorageSettings()[1]
+let longBreak = getStorageSettings()[2]
 let IsOnBreak = false
 timer = null
+
+//update setting values
+const pomoSettings = () => {
+    pomodoroInput.value = m
+    shortBreakInput.value = shortBreak
+    longBreakInput.value = longBreak
+}
+
 
 const updatePomodoro = (e, type) => {
     if (type === "pomodoro") { m = +e.target.value }
     if (type === "short-break") { shortBreak = +e.target.value }
     if (type === "long-break") { longBreak = +e.target.value }
-    initilizeTimeVar(m,s)
+    initilizeTimeVar(m, 0)
 }
 
 const handleInputChange = (e, type) => {
@@ -103,6 +131,7 @@ function initilizeTimeVar(setPomodoroMin, setPomodoroSec) {
 }
 
 //Starting stage
+pomoSettings()
 timerStatus.innerHTML = "START"
 timeIntervals[0].classList.add("active")
 minute.innerHTML = (m < 10) ? `0${m}` : m
@@ -180,7 +209,9 @@ const stopPomodoro = (isOn) => {
 
 settingControl.addEventListener("click", () => {
     modelOverlay.style.display = "none"
-    initilizeTimeVar(m, s)
+    localStorage.setItem("pomo-setting", JSON.stringify([m, shortBreak, longBreak]))
+    initilizeTimeVar(m, 0)
+    startVoice.play()
 })
 //stoping pomodoro on click
 timeContainer.addEventListener("click", () => stopPomodoro(isTimerOn))
