@@ -15,6 +15,10 @@ const fonts = document.querySelectorAll(".font")
 const colors = document.querySelectorAll(".color")
 const timeIntervals = document.querySelectorAll(".btn")
 
+//getting voice istructions
+const startVoice = new Audio('start.mp3')
+const shortBreakVoice = new Audio('short-break.mp3')
+const longBreakVoice = new Audio('long-break.mp3')
 //get theme and font from local storage
 const getStorageTheme = () => {
     let theme = "theme1"
@@ -47,12 +51,10 @@ fonts.forEach(font => {
 })
 
 //time variables
-let isTimeForLongBreak = false
-isTimerStarted = false
 let pomodoroCount = 2
 let m = 1
-let pomodoroDuration = 25
-let totalSec = 25 * 60
+let pomodoroDuration = m
+let totalSec = m * 60
 let s = 0
 let secondsNow = totalSec
 let isTimerOn = false
@@ -65,6 +67,7 @@ const updatePomodoro = (e, type) => {
     if (type === "pomodoro") { m = +e.target.value }
     if (type === "short-break") { shortBreak = +e.target.value }
     if (type === "long-break") { longBreak = +e.target.value }
+    initilizeTimeVar(m,s)
 }
 
 const handleInputChange = (e, type) => {
@@ -86,42 +89,38 @@ closeModel.addEventListener("click", () => {
 })
 
 //countdown logic
-function initilizeTimeVar(setPomodoroMin, isTimerStarted) {
-    timeIntervals.forEach(interval => interval.classList.remove("active"))
-    timeIntervals[0].classList.add("active")
-
-    timerStatus.innerHTML = "START"
+function initilizeTimeVar(setPomodoroMin, setPomodoroSec) {
+    clearInterval(timer)
     timerDot.style.display = 'flex'
     currentTime.style.strokeDashoffset = 0
     pomodoroDuration = setPomodoroMin
-    m = pomodoroDuration
+    s = setPomodoroSec
+    m = setPomodoroMin
     totalSec = pomodoroDuration * 60
-    isTimerOn = true
     secondsNow = totalSec
     //clear previous pomodoro and initiate new one
-    if (isTimerStarted)
-        timer = setInterval(() => countdown(pomodoroDuration), 1000)
+    timer = setInterval(() => countdown(setPomodoroMin), 1000)
 }
 
 //Starting stage
+timerStatus.innerHTML = "START"
+timeIntervals[0].classList.add("active")
 minute.innerHTML = (m < 10) ? `0${m}` : m
 second.innerHTML = (s < 10) ? `0${s}` : s
-initilizeTimeVar(m, isTimerStarted)
+if (isTimerOn) initilizeTimeVar(m, s)
 
 function takeAShortBreak() {
-    s = 1
     timeIntervals.forEach(interval => interval.classList.remove("active"))
     timeIntervals[1].classList.add("active")
-
-    initilizeTimeVar(shortBreak, true)
+    shortBreakVoice.play()
+    initilizeTimeVar(shortBreak, 1)
 }
 
 function takeALongBreak() {
-    s = 1
     timeIntervals.forEach(interval => interval.classList.remove("active"))
     timeIntervals[2].classList.add("active")
-    
-    initilizeTimeVar(longBreak, true)
+    longBreakVoice.play()
+    initilizeTimeVar(longBreak, 1)
 }
 
 function countdown(pomodoroDuration) {
@@ -140,20 +139,18 @@ function countdown(pomodoroDuration) {
     if (m < 0) {
         timerDot.style.display = 'none'
         currentTime.style.strokeDashoffset = 880
-        clearInterval(timer)
-        if (pomodoroCount % 2 === 0) {
-            pomodoroCount++
-            console.log(pomodoroCount, "short")
-            takeAShortBreak()
-        } else if (pomodoroCount === 8) {
-            pomodoroCount = 2
-            console.log(pomodoroCount, "long")
+        if (pomodoroCount % 8 === 0) {
+            pomodoroCount = 1
             takeALongBreak()
+        } else if (pomodoroCount % 2 === 0) {
+            pomodoroCount++
+            takeAShortBreak()
         } else {
             pomodoroCount++
-            console.log(pomodoroCount, "normal")
-            s = 0
-            initilizeTimeVar(m, true)
+            timeIntervals.forEach(interval => interval.classList.remove("active"))
+            timeIntervals[0].classList.add("active")
+            startVoice.play()
+            initilizeTimeVar(pomodoroDuration, 1)
         }
     }
     s--
@@ -167,10 +164,11 @@ function countdown(pomodoroDuration) {
 
 //function to stop toggle the timer
 const stopPomodoro = (isOn) => {
-    if (!isOn) {
-        clearInterval(timer)
+    if (isOn) {
+        if (timer) clearInterval(timer)
         timerStatus.innerHTML = "START"
     } else {
+        new Audio('start.mp3').play()
         timerStatus.innerHTML = "PAUSE"
         setTimeout(() => {
             clearInterval(timer)
@@ -182,7 +180,7 @@ const stopPomodoro = (isOn) => {
 
 settingControl.addEventListener("click", () => {
     modelOverlay.style.display = "none"
-    initilizeTimeVar(m, true)
+    initilizeTimeVar(m, s)
 })
 //stoping pomodoro on click
 timeContainer.addEventListener("click", () => stopPomodoro(isTimerOn))
