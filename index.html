@@ -22,35 +22,36 @@
                 <div class="time-inputs">
                     <div>
                         <label for="pomodoro">pomodoro</label><input type="number" id="pomodoro" min="15"
-                            max="60" step="1" placeholder="25">
+                            max="60" step="1" placeholder="25" value="25">
                     </div>
                     <div>
                         <label for="short-break">short break</label><input type="number" id="short-break" min="5"
-                            max="30" step="1" placeholder="5">
+                            max="15" step="1" placeholder="5" value="5">
                     </div>
                     <div>
-                        <label for="long-break">long break</label><input type="number" id="long-break" min="15"
-                            max="60" step="1" placeholder="15">
+                        <label for="long-break">long break</label><input type="number" id="long-break" min="30"
+                            max="60" step="1" placeholder="15" value="15">
                     </div>
                 </div>
             </div>
             <div class="font-selector">
                 <span>FONT</span>
                 <div class="fonts">
-                    <button class="font-active">Aa</button>
-                    <button>Aa</button>
-                    <button>Aa</button>
+                    <button class="font" style="font-family: Poppins;">Aa</button>
+                    <button class="font" style="font-family: Roboto Slab;">Aa</button>
+                    <button class="font" style="font-family: Space Mono;">Aa</button>
                 </div>
             </div>
             <div class="color-selector">
                 <span>COLOR</span>
                 <div class="colors">
-                    <div style="background-color: #5cf;">&check;</div>
-                    <div style="background-color: rgb(109,98,255);"></div>
-                    <div style="background-color: #57d;"></div>
+                    <div class="color" id="theme1" style="background-color: #5cf;"></div>
+                    <div class="color" id="theme2" style="background-color: rgb(207,85,221);"></div>
+                    <div class="color" id="theme3" style="background-color: rgb(109,98,255);"></div>
                 </div>
             </div>
         </div>
+        <button class="apply-setting">Apply</button>
     </div>
     <section class="container">
         <h1>pomodoro</h1>

@@ -1,7 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins&family=Roboto+Slab&family=Space+Mono&display=swap');
 
 :root {
     --text-color: #fff;
+    --font-face: "Poopins";
 }
 
 .theme1 {
@@ -11,25 +12,25 @@
     --primary-color-shadow: #5cf9;
 }
 
-.theme2 {
+.theme3 {
     --clock-bg: #23234b;
     --bg-color: #272663;
     --primary-color: rgb(109, 98, 255);
     --primary-color-shadow: rgba(111, 104, 253, 0.6);
 }
 
-.theme3 {
-    --clock-bg: #1f2d3f;
-    --bg-color: #1f325f;
-    --primary-color: #57d;
-    --primary-color-shadow: #57d9;
+.theme2 {
+    --clock-bg: #3f1f3d;
+    --bg-color: #5f1f5b;
+    --primary-color: rgb(207, 85, 221);
+    --primary-color-shadow: rgba(217, 85, 221, 0.6);
 }
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "Poppins", sans-serif;
+    font-family: var(--font-face), sans-serif;
     transition: transform 1s ease-in-out, stroke-dashoffset 1s ease-in-out;
 }
 
@@ -45,15 +46,29 @@ body {
 
 .overlays {
     position: fixed;
-    display: flex;
+    display: none;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.4);
+    background-color: rgba(0, 0, 0, 0.5);
     z-index: 20;
+}
+
+.overlays .apply-setting{
+    border: none;
+    background-color: rgb(240, 113, 105);
+    color: var(--text-color);
+    width: 10rem;
+    height: 3rem;
+    font-size: 0.85rem;
+    border-radius: 30px;
+    font-weight: 600;
+    margin-top: -1.75rem;
+    z-index: 50;
 }
 
 .model {
@@ -67,13 +82,13 @@ body {
     height: 32rem;
     background-color: #fff;
     border-radius: 30px;
-    box-shadow: rgba(0, 0, 0, 0.2);
     color: var(--bg-color);
     z-index: 30;
 }
 
 .model span {
     letter-spacing: 0.25rem;
+    font-weight: bold;
 }
 
 .time-setting {
@@ -103,18 +118,12 @@ body {
     border: none;
     outline: none;
     background-color: rgba(170, 170, 170, 0.2);
-    padding: 0.5rem 1rem;
+    padding: 0.5rem 1.5rem;
     border-radius: 8px;
     outline: none;
     width: 100%;
     height: 3rem;
     font-size: 1.5rem;
-}
-
-[data-input][type=number]::-webkit-inner-spin-button,
-[data-input][type=number]::-webkit-outer-spin-button {
-    display: block;
-    opacity: 1;
 }
 
 .setting-header button,
@@ -183,7 +192,7 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
-    height: 90vh;
+    gap: 2.4rem;
 }
 
 .container h1 {
@@ -211,8 +220,8 @@ body {
     height: 340px;
     background-color: var(--bg-color);
     border-radius: 50%;
-    box-shadow: 0 0 15px var(--primary-color-shadow),
-        0 0 30px var(--primary-color);
+    box-shadow: 0 0 10px var(--primary-color-shadow),
+    0 0 25px var(--primary-color);
     padding-top: 15px;
     padding-left: 15px;
     overflow: hidden;
@@ -243,6 +252,7 @@ body {
     width: 100%;
     height: 100%;
     position: absolute;
+    font-family: inherit;
     top: 0;
     left: 0;
     display: flex;
@@ -275,8 +285,9 @@ body {
         0 0 60px var(--primary-color);
 }
 
-.timer .status {
+.time-container .timer .status {
     letter-spacing: 0.5rem;
+    font-family: inherit;
 }
 
 .time {
