@@ -3,16 +3,16 @@
     "short_name": "pomodoro",
     "start_url": "index.html",
     "display": "standalone",
-    "background_color": "#fdfdfd",
+    "background_color": "#1f2f3f",
     "theme_color": "#1f2f3f",
     "orientation": "portrait-primary",
     "icons": [
       {
-        "src": "/images/icons/ic.png",
+        "src": "/images/icons/icon.png",
         "type": "image/png", "sizes": "72x72"
       },
       {
-        "src": "/images/icons/ic.png",
+        "src": "/images/icons/icon.png",
         "type": "image/png", "sizes": "96x96"
       },
       {
