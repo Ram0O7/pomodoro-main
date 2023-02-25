@@ -108,11 +108,12 @@ function showError() {
     const errorElement = document.createElement('span')
     console.log(errorElement)
     errorElement.classList.add('input-error')
-    errorElement.textContent = "( *values > 0 required )"
+    errorElement.textContent = "( *values 5 or above required )"
     document.querySelector(".time-setting").append(errorElement)
     setTimeout(() => {
         document.querySelector(".time-setting").removeChild(errorElement)
     }, 1500)
+    pomoSettings(25,5,15)
 }
 
 const handleInputChange = (e, type) => {
@@ -120,23 +121,20 @@ const handleInputChange = (e, type) => {
 }
 // changing setting based on the input
 pomodoroInput.addEventListener("change", (e) => {
-    if (Math.floor(+e.target.value) > 0) { handleInputChange(e, "pomodoro") }
+    if (Math.floor(+e.target.value) >= 5) { handleInputChange(e, "pomodoro") }
     else {
-        pomoSettings(m, shortBreak, longBreak)
         showError()
     }
 })
 shortBreakInput.addEventListener("change", (e) => {
-    if (Math.floor(+e.target.value) > 0) { handleInputChange(e, "short-break") }
+    if (Math.floor(+e.target.value) >= 5) { handleInputChange(e, "short-break") }
     else {
-        pomoSettings(m, shortBreak, longBreak)
         showError()
     }
 })
 longBreakInput.addEventListener("change", (e) => {
-    if (Math.floor(+e.target.value) > 0) { handleInputChange(e, "long-break") }
+    if (Math.floor(+e.target.value) >= 5) { handleInputChange(e, "long-break") }
     else {
-        pomoSettings(m, shortBreak, longBreak)
         showError()
     }
 })
