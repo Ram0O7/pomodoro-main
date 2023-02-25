@@ -53,6 +53,8 @@ const getStorageSettings = () => {
     const setting = [25, 5, 15];
     const pomoSetting = JSON.parse(localStorage.getItem("pomo-setting"))
     if (pomoSetting) {
+        if(pomoSetting[0] < 25)
+            return setting
         return pomoSetting
     }
     return setting
@@ -92,17 +94,13 @@ const pomoSettings = (start, short, long) => {
 const updatePomodoro = (e, type) => {
     if (type === "pomodoro") {
         m = +e.target.value
-        localStorage.setItem("pomo-setting", JSON.stringify([m, shortBreak, longBreak]))
     }
     if (type === "short-break") {
         shortBreak = +e.target.value
-        localStorage.setItem("pomo-setting", JSON.stringify([m, shortBreak, longBreak]))
     }
     if (type === "long-break") {
         longBreak = +e.target.value
-        localStorage.setItem("pomo-setting", JSON.stringify([m, shortBreak, longBreak]))
     }
-    startVoice.play()
     pomoSettings(m, shortBreak, longBreak)
 }
 
@@ -126,9 +124,6 @@ pomodoroInput.addEventListener("change", (e) => {
     else {
         pomoSettings(m, shortBreak, longBreak)
         showError()
-
-        localStorage.setItem("pomo-setting", JSON.stringify([m, shortBreak, longBreak]))
-
     }
 })
 shortBreakInput.addEventListener("change", (e) => {
@@ -163,6 +158,7 @@ function initilizeTimeVar(setPomodoroMin) {
     currentTime.style.strokeDashoffset = 0
     pomodoroDuration = setPomodoroMin
     m = setPomodoroMin
+    s = 0
     totalSec = pomodoroDuration * 60
     secondsNow = totalSec
     //clear previous pomodoro and initiate new one
