@@ -20,7 +20,7 @@ if ("serviceWorker" in navigator) {
     window.addEventListener("load", function () {
         navigator.serviceWorker
             .register("/serviceWorker.js")
-            .then(res => console.log("service worker registered"))
+            .then(res => console.log("service worker registered", res))
             .catch(err => console.log("service worker not registered", err))
     })
 }
@@ -50,7 +50,7 @@ const getStorageFont = () => {
 
 //get pomodoro setting
 const getStorageSettings = () => {
-    const setting = [25, 5, 30];
+    const setting = [25, 5, 15];
     const pomoSetting = JSON.parse(localStorage.getItem("pomo-setting"))
     if (pomoSetting) {
         return pomoSetting
@@ -83,27 +83,68 @@ let longBreak = getStorageSettings()[2]
 timer = null
 
 //update setting values
-const pomoSettings = () => {
-    pomodoroInput.value = m
-    shortBreakInput.value = shortBreak
-    longBreakInput.value = longBreak
+const pomoSettings = (start, short, long) => {
+    pomodoroInput.value = start
+    shortBreakInput.value = short
+    longBreakInput.value = long
 }
 
-
 const updatePomodoro = (e, type) => {
-    if (type === "pomodoro") { m = +e.target.value }
-    if (type === "short-break") { shortBreak = +e.target.value }
-    if (type === "long-break") { longBreak = +e.target.value }
-    initilizeTimeVar(m, 0)
+    if (type === "pomodoro") {
+        m = +e.target.value
+        localStorage.setItem("pomo-setting", JSON.stringify([m, shortBreak, longBreak]))
+    }
+    if (type === "short-break") {
+        shortBreak = +e.target.value
+        localStorage.setItem("pomo-setting", JSON.stringify([m, shortBreak, longBreak]))
+    }
+    if (type === "long-break") {
+        longBreak = +e.target.value
+        localStorage.setItem("pomo-setting", JSON.stringify([m, shortBreak, longBreak]))
+    }
+    startVoice.play()
+    pomoSettings(m, shortBreak, longBreak)
+}
+
+function showError() {
+    const errorElement = document.createElement('span')
+    console.log(errorElement)
+    errorElement.classList.add('input-error')
+    errorElement.textContent = "( *values > 0 required )"
+    document.querySelector(".time-setting").append(errorElement)
+    setTimeout(() => {
+        document.querySelector(".time-setting").removeChild(errorElement)
+    }, 1500)
 }
 
 const handleInputChange = (e, type) => {
     updatePomodoro(e, type)
 }
 // changing setting based on the input
-pomodoroInput.addEventListener("change", (e) => handleInputChange(e, "pomodoro"))
-shortBreakInput.addEventListener("change", (e) => handleInputChange(e, "short-break"))
-longBreakInput.addEventListener("change", (e) => handleInputChange(e, "long-break"))
+pomodoroInput.addEventListener("change", (e) => {
+    if (Math.floor(+e.target.value) > 0) { handleInputChange(e, "pomodoro") }
+    else {
+        pomoSettings(m, shortBreak, longBreak)
+        showError()
+
+        localStorage.setItem("pomo-setting", JSON.stringify([m, shortBreak, longBreak]))
+
+    }
+})
+shortBreakInput.addEventListener("change", (e) => {
+    if (Math.floor(+e.target.value) > 0) { handleInputChange(e, "short-break") }
+    else {
+        pomoSettings(m, shortBreak, longBreak)
+        showError()
+    }
+})
+longBreakInput.addEventListener("change", (e) => {
+    if (Math.floor(+e.target.value) > 0) { handleInputChange(e, "long-break") }
+    else {
+        pomoSettings(m, shortBreak, longBreak)
+        showError()
+    }
+})
 
 // opent settings layout when clicked on settings button
 settingBtn.addEventListener("click", () => {
@@ -116,12 +157,11 @@ closeModel.addEventListener("click", () => {
 })
 
 //countdown logic
-function initilizeTimeVar(setPomodoroMin, setPomodoroSec) {
+function initilizeTimeVar(setPomodoroMin) {
     clearInterval(timer)
     timerDot.style.display = 'flex'
     currentTime.style.strokeDashoffset = 0
     pomodoroDuration = setPomodoroMin
-    s = setPomodoroSec
     m = setPomodoroMin
     totalSec = pomodoroDuration * 60
     secondsNow = totalSec
@@ -130,40 +170,33 @@ function initilizeTimeVar(setPomodoroMin, setPomodoroSec) {
 }
 
 //Starting stage
-pomoSettings()
+pomoSettings(m, shortBreak, longBreak)
 timerStatus.innerHTML = "START"
 timeIntervals[0].classList.add("active")
 minute.innerHTML = (m < 10) ? `0${m}` : m
 second.innerHTML = (s < 10) ? `0${s}` : s
-if (isTimerOn) initilizeTimeVar(m, s)
+if (isTimerOn) initilizeTimeVar(m)
 
 function takeAShortBreak() {
     timeIntervals.forEach(interval => interval.classList.remove("active"))
     timeIntervals[1].classList.add("active")
     shortBreakVoice.play()
-    initilizeTimeVar(shortBreak, 1)
+    initilizeTimeVar(shortBreak)
 }
 
 function takeALongBreak() {
     timeIntervals.forEach(interval => interval.classList.remove("active"))
     timeIntervals[2].classList.add("active")
     longBreakVoice.play()
-    initilizeTimeVar(longBreak, 1)
+    initilizeTimeVar(longBreak)
 }
 
 function countdown(pomodoroDuration) {
-
-    let minutes = (m < 10) ? `0${m}` : m
-    let seconds = (s < 10) ? `0${s}` : s
-
-    minute.innerHTML = minutes
-    second.innerHTML = seconds
-
+    // checking if the minutes are greater than zero to short-out breaks    
     if (s === 0) {
         s = 60
         m--
     }
-
     if (m < 0) {
         timerDot.style.display = 'none'
         currentTime.style.strokeDashoffset = 880
@@ -178,9 +211,11 @@ function countdown(pomodoroDuration) {
             timeIntervals.forEach(interval => interval.classList.remove("active"))
             timeIntervals[0].classList.add("active")
             startVoice.play()
-            initilizeTimeVar(pomodoroDuration, 1)
+            initilizeTimeVar(pomodoroDuration)
         }
     }
+
+    if (m === 1) m = 0
     s--
     secondsNow--
     // animating svg stroke to match the current time position
@@ -188,6 +223,12 @@ function countdown(pomodoroDuration) {
         currentTime.style.strokeDashoffset = 880 - (880 * (secondsNow)) / (totalSec)
     // rotating dot according to the no of sections
     timerDot.style.transform = `rotate(${(360 / (pomodoroDuration)) * (secondsNow / 60)}deg)`
+
+    let minutes = (m < 10) ? `0${m}` : m
+    let seconds = (s < 10) ? `0${s}` : s
+
+    minute.innerHTML = minutes
+    second.innerHTML = seconds
 }
 
 //function to stop toggle the timer
@@ -210,8 +251,9 @@ settingControl.addEventListener("click", () => {
     modelOverlay.style.display = "none"
     isTimerOn = true
     timerStatus.innerHTML = "PAUSE"
+    pomoSettings(m, shortBreak, longBreak)
     localStorage.setItem("pomo-setting", JSON.stringify([m, shortBreak, longBreak]))
-    initilizeTimeVar(m, 0)
+    initilizeTimeVar(m)
     startVoice.play()
 })
 //stoping pomodoro on click
