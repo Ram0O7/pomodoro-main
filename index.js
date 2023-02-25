@@ -80,7 +80,6 @@ let secondsNow = totalSec
 let isTimerOn = false
 let shortBreak = getStorageSettings()[1]
 let longBreak = getStorageSettings()[2]
-let IsOnBreak = false
 timer = null
 
 //update setting values
@@ -209,6 +208,8 @@ const stopPomodoro = (isOn) => {
 
 settingControl.addEventListener("click", () => {
     modelOverlay.style.display = "none"
+    isTimerOn = true
+    timerStatus.innerHTML = "PAUSE"
     localStorage.setItem("pomo-setting", JSON.stringify([m, shortBreak, longBreak]))
     initilizeTimeVar(m, 0)
     startVoice.play()
