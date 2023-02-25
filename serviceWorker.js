@@ -1,4 +1,4 @@
-const staticPomodoroCache = "pomodoro-site-v3"
+const staticPomodoroCache = "pomodoro-site-v7"
 const assets = [
     "/",
     "/index.html",

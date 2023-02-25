@@ -20,8 +20,8 @@ if ("serviceWorker" in navigator) {
     window.addEventListener("load", function () {
         navigator.serviceWorker
             .register("/serviceWorker.js")
-            .then(res => console.log("service worker registered", res))
-            .catch(err => console.log("service worker not registered", err))
+            .then(res => console.log(res.waiting.state))
+            .catch(err => console.log(err))
     })
 }
 
@@ -91,17 +91,19 @@ const pomoSettings = (start, short, long) => {
     longBreakInput.value = long
 }
 
+//input timer variables
+let strt = 5, srt = 5, lng = 5
+
 const updatePomodoro = (e, type) => {
     if (type === "pomodoro") {
-        m = +e.target.value
+        strt = +e.target.value
     }
     if (type === "short-break") {
-        shortBreak = +e.target.value
+        srt = +e.target.value
     }
     if (type === "long-break") {
-        longBreak = +e.target.value
+        lng = +e.target.value
     }
-    pomoSettings(m, shortBreak, longBreak)
 }
 
 function showError() {
@@ -245,9 +247,9 @@ settingControl.addEventListener("click", () => {
     modelOverlay.style.display = "none"
     isTimerOn = true
     timerStatus.innerHTML = "PAUSE"
-    pomoSettings(m, shortBreak, longBreak)
-    localStorage.setItem("pomo-setting", JSON.stringify([m, shortBreak, longBreak]))
-    initilizeTimeVar(m)
+    pomoSettings(strt, srt, lng)
+    localStorage.setItem("pomo-setting", JSON.stringify([strt, srt, lng]))
+    initilizeTimeVar(strt)
     startVoice.play()
 })
 //stoping pomodoro on click
