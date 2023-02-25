@@ -53,7 +53,7 @@ const getStorageSettings = () => {
     const setting = [25, 5, 15];
     const pomoSetting = JSON.parse(localStorage.getItem("pomo-setting"))
     if (pomoSetting) {
-        if(pomoSetting[0] < 25)
+        if(pomoSetting[0] < 25 && pomoSetting > 60)
             return setting
         return pomoSetting
     }
@@ -110,7 +110,7 @@ function showError() {
     const errorElement = document.createElement('span')
     console.log(errorElement)
     errorElement.classList.add('input-error')
-    errorElement.textContent = "( *values 5 or above required )"
+    errorElement.textContent = "( *values (5 to 60) required )"
     document.querySelector(".time-setting").append(errorElement)
     setTimeout(() => {
         document.querySelector(".time-setting").removeChild(errorElement)
@@ -123,19 +123,19 @@ const handleInputChange = (e, type) => {
 }
 // changing setting based on the input
 pomodoroInput.addEventListener("change", (e) => {
-    if (Math.floor(+e.target.value) >= 5) { handleInputChange(e, "pomodoro") }
+    if (Math.floor(+e.target.value) >= 5 && Math.floor(+e.target.value) <= 60) { handleInputChange(e, "pomodoro") }
     else {
         showError()
     }
 })
 shortBreakInput.addEventListener("change", (e) => {
-    if (Math.floor(+e.target.value) >= 5) { handleInputChange(e, "short-break") }
+    if (Math.floor(+e.target.value) >= 5 && Math.floor(+e.target.value) <= 60) { handleInputChange(e, "short-break") }
     else {
         showError()
     }
 })
 longBreakInput.addEventListener("change", (e) => {
-    if (Math.floor(+e.target.value) >= 5) { handleInputChange(e, "long-break") }
+    if (Math.floor(+e.target.value) >= 5 && Math.floor(+e.target.value) <= 60) { handleInputChange(e, "long-break") }
     else {
         showError()
     }
